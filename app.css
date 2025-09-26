@@ -61,7 +61,7 @@ form .display input {
     text-align: right;
     flex: 1;
     font-size: 45px;
-    box-shadow: inset -8px -8px 15px rgba(255,255,255,0.1), inset 5px 5px 15px rgba(0,0,0,0.2);
+    box-shadow: none;
 }
 
 form input.equal {
