@@ -132,3 +132,9 @@ button:focus-visible {
     outline-offset: 2px;
 }
 
+.footer {
+    margin-top: 14px;
+    opacity: 0.5;
+    font-size: 12px;
+    text-align: center;
+}
