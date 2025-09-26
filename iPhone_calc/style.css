@@ -112,7 +112,7 @@ button:active {
     background: var(--btn-op);
 }
 
-/* Remove this later */
+/* Remove this later 
 .btn-zero {
     grid-column: span 2;
     aspect-ratio: auto;
@@ -120,7 +120,7 @@ button:active {
     border-radius: 40px;
     justify-content: flex-start;
     padding-left: 26px;
-}
+}*/
 
 .op-active {
     background: var(--text);

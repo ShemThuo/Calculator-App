@@ -18,5 +18,29 @@
         if (
             /e/i.test(val)  || val.replace("-", "").replace(".", "").length <= maxlen
         ) { display.textContent = val; }
+        else {
+            const num = Number(val);
+            display.textContent = num.toExponential(6).replace("+", "");
+        }
     }
+
+    function setACLabel(txt) {
+        const ac = document.querySelector("[data-action='clear']");
+        if (ac) ac.textContent = txt;
+    }
+
+    function clearOpHighlights() {
+        document.querySelectorAll("[data-action='operator']").forEach((btn) => {
+            btn.classList.remove("op-active");
+        });
+    }
+
+    function setActiveOperator(op) {
+        clearOpHighlights();
+        const btn = documents.querySelector(`[data-action ='operator'][data-op = ${CSS.escape(op)}]`);
+        if (btn) btn.classList.add("opp-active");
+    }
+
+//38:41
+
 })();
