@@ -60,3 +60,64 @@ html,body {
     letter-spacing: 1px;
     user-select: none;
 }
+
+.display, .value {
+    font-size: 64px;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+button {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 500;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 14px var(--btn-shadow);
+    transition: transform 0.5s ease, filter 0.15s ease, background 0.2s ease, color 0.2s ease;
+    user-select: none;
+}
+
+button:active {
+    transform: scale(0.98);
+    filter: brightness(1.15);
+}
+
+.btn-num {
+    background: var(--btn-num);
+}
+
+.btn-func {
+    background: var(--btn-func);
+    color: #000;
+    font-weight: 700;
+}
+
+.btn-op {
+    background: var(--btn-op);
+}
+
+/* Remove this later */
+.btn-zero {
+    grid-column: span 2;
+    aspect-ratio: auto;
+    height: 64px;
+    border-radius: 40px;
+    justify-content: flex-start;
+    padding-left: 26px;
+}
