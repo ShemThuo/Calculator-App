@@ -30,3 +30,12 @@ body{
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     padding: 20px;
 }
+
+.calculator form input {
+    border: 0;
+    outline: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: -8p;
+}
