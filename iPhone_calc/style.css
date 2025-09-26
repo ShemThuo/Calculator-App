@@ -121,3 +121,14 @@ button:active {
     justify-content: flex-start;
     padding-left: 26px;
 }
+
+.op-active {
+    background: var(--text);
+    color: var(--btn-op);
+}
+
+button:focus-visible {
+    outline: 3px solid #fff3;
+    outline-offset: 2px;
+}
+
