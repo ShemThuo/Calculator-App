@@ -1,5 +1,5 @@
 :root {
-    --bg: #000;
+    --bg: #5f5e5f;
     --text: #fff;
     --btn-num: #505050;
     --btn-func: #a5a5a5;
@@ -28,6 +28,7 @@ html,body {
     background: linear-gradient(180deg, #111 0%, #000 100%);
     box-shadow: 0 20px 50px var(--btn-shadow);
     position: relative;
+    
 }
 
 .status-notch {
@@ -137,4 +138,14 @@ button:focus-visible {
     opacity: 0.5;
     font-size: 12px;
     text-align: center;
+}
+
+.calc-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: var(--text);
+    letter-spacing: 1px;
+    user-select: none;
 }

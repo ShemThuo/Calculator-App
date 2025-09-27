@@ -199,9 +199,55 @@
             case "operator":
                 handleOperator(t.dataset.op);
                 break;
-            
+            case "equals":
+                equals();
+                break;
             default:
                 break;
         }
     });
-});
+
+    function backspace() {
+        if (state.waitingForSecondOperand) return;
+        if (state.displayValue.length > 1) {
+            state.displayValue = state.displayValue.slice(0, -1);
+        } else {
+            state.displayValue = "0";
+        }
+        updateDisplay();
+    }
+
+    window.addEventListener("keydown", (e) => {
+        const key = e.key;
+        if (/^[0-9]$/.test(key)) {
+            inputDigit(key);
+            return;
+        }
+        if (key === ".") {
+            inputDecimal();
+            return;
+        }
+        if (key === "+" || key === "-" || key === "*" || key === "/") {
+            handleOperator(key);
+            return;
+        }
+        if (key === "Enter" || key === "=") {
+            e.preventDefault();
+            equals();
+            return;
+        }
+        if (key === "Escape") {
+            clearAll(true);
+            return;
+        }
+        if (key === "%") {
+            percent();
+            return;
+        }
+        if (key === "Backspace") {
+            backspace();
+            return;
+        }
+        updateDisplay();
+    });
+})();
