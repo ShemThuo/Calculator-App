@@ -41,6 +41,24 @@
         if (btn) btn.classList.add("opp-active");
     }
 
-//38:41
+    function inputDigit(d) {
+        if (state.waitingForSecondOperand) {
+            state.displayValue = d;
+            state.waitingForSecondOperand = false;
+        } else {
+            state.displayValue = state.displayValue === "0" ? d : state.displayValue + d;
+        }
+        clearOpHighlights();
+        setACLabel("C");
+        updateDisplay();
+    }
 
+    keys.addEventListener("click", (e) => {
+        const t = e.target.closest("button");
+        if (!t) return;
+        if (t.dataset.digit) {
+            inputDigit(t.dataset.digit);
+            return;
+        }
+    });
 })();
