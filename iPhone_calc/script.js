@@ -1,6 +1,6 @@
 (function() {
     const display = document.getElementById('display');
-    const keys = document.querySelectorAll('.keys');
+    const keys = document.getElementById('keys');
 
     const state = {
         displayValue: "0",
@@ -12,16 +12,15 @@
     };
 
     function updateDisplay() {
-        const value = state.displayValue;
+        const val = state.displayValue;
         const maxlen = 9;
 
-        if (
-            /e/i.test(value)  || value.replace("-", "").replace(".", "").length <= maxlen
+        if (/e/i.test(val)  || val.replace("-", "").replace(".", "").length <= maxlen
         ) { 
-            display.textContent = value; 
+            display.textContent = val; 
         }
         else {
-            const num = Number(value);
+            const num = Number(val);
             display.textContent = num.toExponential(6).replace("+", "");
         }
     }
@@ -32,15 +31,15 @@
     }
 
     function clearOpHighlights() {
-        document.querySelectorAll("[data-action='operator']").forEach((btn) => {
-            btn.classList.remove("op-active");
-        });
+        document.querySelectorAll("[data-action='operator']").forEach((btn) => 
+            btn.classList.remove("op-active")
+        );
     }
 
     function setActiveOperator(op) {
         clearOpHighlights();
-        const btn = documents.querySelector(`[data-action ='operator'][data-op = ${CSS.escape(op)}]`);
-        if (btn) btn.classList.add("opp-active");
+        const btn = document.querySelector(`[data-action ='operator'][data-op = ${CSS.escape(op)}]`);
+        if (btn) btn.classList.add("op-active");
     }
 
     function inputDigit(d) {
@@ -69,7 +68,7 @@
     function toggleSign() {
         if (state.displayValue === "0") return;
         state.displayValue = String(-Number(state.displayValue));
-        updateDisplay
+        updateDisplay();
     }
 
     function percent() {
@@ -82,9 +81,96 @@
         state.displayValue = String(current);
         updateDisplay();
     }
-    
-    keys.addEventListener("click", (e) => {
+
+    function clearAll(full=true) {
+        state.displayValue = "0";
+        if (full) {
+            state.firstOperand = null;
+            state.operator = null;
+            state.waitingForSecondOperand = false;
+            state.lastOperator = null;
+            state.lastOperand = null;
+            clearOpHighlights();
+        }
+        setACLabel('AC');
+        updateDisplay();
+    }
+
+        //Calculation part
+        function calculate(a, op, b){
+            a = Number(a);
+            b = Number(b);
+
+            switch (op) {
+                case "+":
+                    return a + b;
+                    break;
+                case "-":
+                    return a - b;
+                    break;
+                case "*":
+                    return a * b;
+                    break;
+                case "/":
+                    return b === 0 ? NaN : a / b;
+                    break;
+                default:
+                    return b;
+                    break;
+            }
+        }
+
+        function handleOperator(nextOp) {
+            const inputValue = Number(state.displayValue);
+
+            if (state.operator && state.waitingForSecondOperand) {
+                state.operator = nextOp;
+                setActiveOperator(nextOp);
+                return;
+            }
+            if (state.firstOperand === null) {
+                state.firstOperand = inputValue;
+            }else if (state.operator) {
+                const result = calculate(state.firstOperand, state.operator, inputValue);
+                state.displayValue = String(result);
+                state.firstOperand = result;
+                updateDisplay();
+            }
+            state.operator = nextOp;
+            state.waitingForSecondOperand = true;
+            state.lastOperator = null;
+            state.lastOperand = null;
+            setActiveOperator(nextOp);
+            setACLabel ('C');
+        }
+
+        function equals () {
+            let inputValue = Number(state.displayValue);
+            if (state.operator === null) {
+                if (state.lastOperator && state.lastOperand !== null) {
+                    const result = calculate(inputValue, state.lastOperator, state.lastOperand);
+                    state.displayValue = String(result);
+                }
+                updateDisplay();
+                return;
+            }
+            if (state.waitingForSecondOperand) {
+                inputValue = state.firstOperand;
+            }
+            const result = calculate(state.firstOperand, state.operator, inputValue);
+            state.displayValue = String(result);
+            state.firstOperand = result;
+            state.lastOperator = state.operator;
+            state.lastOperand = inputValue;
+            state.operator = null;
+            state.waitingForSecondOperand = false;
+            clearOpHighlights();
+            updateDisplay();
+        }
+
+        keys.addEventListener("click", (e) => {
         const t = e.target.closest("button");
+
         if (!t) return;
         if (t.dataset.digit) {
             inputDigit(t.dataset.digit);
@@ -100,6 +186,20 @@
             case "sign":
                 toggleSign();
                 break;
+            case "percent":
+                percent();
+                break;
+            case "clear":
+                if (display.textContent !== "0") {
+                    clearAll(false);
+                } else {
+                    clearAll(true);
+                }
+                break;
+            case "operator":
+                handleOperator(t.dataset.op);
+                break;
+            
             default:
                 break;
         }
