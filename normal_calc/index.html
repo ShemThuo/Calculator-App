@@ -18,7 +18,7 @@
                     <div>
                         <input type="button" value="AC" onclick="display.value = ''" class="eraser">
                         <input type="button" value="DEL" onclick="display.value = display.value.toString().slice(0, -1)" class="eraser">
-                        <input type="button" value="." onclick="display.value += '.'" class="operator">
+                        <input type="button" value="." onclick="addDecimal()" class="operator">
                         <input type="button" value="/" onclick="display.value += '/'" class="operator">
                     </div>
                     <div>
@@ -46,6 +46,16 @@
                 </form>
             </div>
         </div>
-        <script src="app.js" ></script>
+        <script >
+            function addDecimal() {
+                const dispaly = document.getElementById('display');
+                // Split by operators to get the current number being entered
+                const parts = display.value.split(/{\+\-\*\/}/);
+                const current = parts[parts.length - 1];
+                if (!current.includes('.')) {
+                    display.value += '.';
+                }
+            }
+        </script>
     </body>
 </html>
